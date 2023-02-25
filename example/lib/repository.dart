@@ -1,14 +1,15 @@
 import 'package:get_base/get_base.dart';
 
-class Repository extends BaseRepository {
-  final RepositoryConfig _config = RepositoryConfig(
+/// 默认仓库
+class Repository extends DefaultBaseRepository {
+  final RequestConfig _config = RequestConfig(
     baseUrl: "https://softcdn.pintreel.com",
     useLog: true,
   );
 
   @override
-  RepositoryConfig config() {
-    return _config;
+  BaseRequest getRequest() {
+    return DefaultBaseRequest(_config);
   }
 
   @override
@@ -21,17 +22,16 @@ class Repository extends BaseRepository {
     return DefaultHttpTransformer.getInstance();
   }
 
-  Future pwdLogin() async {
+  Future pwdLogin({bool bindPage = true}) async {
     await post(
       url: "/api/user/login",
       data: {
         "account": "shi",
-        // "password": "123456szx",
+        "password": "123456szx",
       },
+      bindPage: bindPage,
       onSuccess: (data) {},
       onFail: (code, msg) {},
-      showTip: true,
-      showErrorTip: true,
     );
   }
 }

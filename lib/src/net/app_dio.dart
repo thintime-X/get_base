@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:get_base/src/net/config/repository_config.dart';
+import 'package:get_base/src/net/config/request_config.dart';
 import 'package:get_base/src/net/interceptors/content_type_interceptors.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -7,7 +7,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 /// version: 1.0
 class AppDio with DioMixin implements Dio {
   AppDio({
-    required RepositoryConfig config,
+    required RequestConfig config,
   }) {
     BaseOptions options = BaseOptions(
       baseUrl: config.baseUrl,

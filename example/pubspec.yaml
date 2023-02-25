@@ -14,8 +14,7 @@ dependencies:
 
   get_base:
     path: ../
-  flutter_smart_dialog: ^4.7.1 #dialog toast相关
-  connectivity_plus: ^3.0.2 #网络检查工具
+
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

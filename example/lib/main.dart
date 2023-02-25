@@ -1,27 +1,10 @@
-import 'dart:developer';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:example/repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:get_base/get_base.dart';
 
 Repository repository = Repository();
 
 void main() {
-  ClientConfig.beforeRequest = _check;
-  ClientConfig.toastCall = (msg) {
-    SmartDialog.showToast(msg);
-  };
   runApp(const MyApp());
-}
-
-Future<NetworkException?> _check()async {
-  var connectivityResult = await (Connectivity().checkConnectivity());
-  if (connectivityResult == ConnectivityResult.none) {
-    return NetworkException(HttpExceptionCode.netError, "网络异常，请检查你的网络！");
-  }
-  return null;
 }
 
 class MyApp extends StatelessWidget {
@@ -35,28 +18,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      navigatorObservers: [
-        FlutterSmartDialog.observer,
-      ],
-      builder: FlutterSmartDialog.init(builder: (ctx, child) {
-        return MediaQuery(
-          //设置文字大小不随系统设置改变
-          data: MediaQuery.of(ctx).copyWith(textScaleFactor: 1.0),
-          child: Scaffold(
-            body: GestureDetector(
-              onTap: () {
-                //点击空白收起键盘
-                FocusScopeNode currentFocus = FocusScope.of(ctx);
-                if (!currentFocus.hasPrimaryFocus &&
-                    currentFocus.focusedChild != null) {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                }
-              },
-              child: child,
-            ),
-          ),
-        );
-      }),
     );
   }
 }
@@ -73,11 +34,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void _incrementCounter() {
-    repository.pwdLogin();
+    /*repository.pwdLogin();
     setState(() {
       _counter++;
-    });
+    });*/
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => TowPage()));
   }
 
   @override
@@ -104,6 +71,51 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class TowPage extends StatefulWidget {
+  const TowPage({Key? key}) : super(key: key);
+
+  @override
+  State<TowPage> createState() => _TowPageState();
+}
+
+class _TowPageState extends State<TowPage> {
+
+  @override
+  void initState() {
+    repository.addCancelTokenListener(runtimeType.toString());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    repository.removeCancelTokenListener(runtimeType.toString());
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              repository.pwdLogin();
+              repository.pwdLogin();
+              repository.pwdLogin();
+              repository.pwdLogin(bindPage: false);
+            },
+            child: const Text(
+              "请求",
+            ),
+          ),
+        ],
       ),
     );
   }

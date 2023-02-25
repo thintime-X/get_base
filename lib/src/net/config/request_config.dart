@@ -9,9 +9,9 @@ const int _receiveTimeout = 1000 * 60;
 /// 发送超时时间
 const int _sendTimeout = 1000 * 60;
 
-/// 仓库配置项
-class RepositoryConfig {
-  RepositoryConfig({
+/// dio配置项
+class RequestConfig {
+  RequestConfig({
     required this.baseUrl,
     this.connectTimeout = _connectTimeout,
     this.sendTimeout = _sendTimeout,
@@ -46,7 +46,7 @@ class RepositoryConfig {
   /// 打印配置
   final PrettyDioLogger? logger;
 
-  RepositoryConfig copyWith({
+  RequestConfig copyWith({
     String? baseUrl,
     int? connectTimeout,
     int? sendTimeout,
@@ -56,7 +56,7 @@ class RepositoryConfig {
     bool? useLog,
     PrettyDioLogger? logger,
   }) {
-    return RepositoryConfig(
+    return RequestConfig(
       baseUrl: baseUrl ?? this.baseUrl,
       connectTimeout: connectTimeout ?? this.connectTimeout,
       sendTimeout: sendTimeout ?? this.sendTimeout,
